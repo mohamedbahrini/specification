@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserProfile> getByUsername(List<String> names) {
         List<SpecSearchCriteria> searchCriteriaList = new ArrayList<>();
-        for (String name : names) {
-            searchCriteriaList.add(new SpecSearchCriteria("username", ":", name, true));
+
+        Field[] fields = UserProfile.class.getDeclaredFields();
+        for (Field field: fields) {
+            if(field.getName().equals("id")) {
+                continue;
+            }
+            for (String name : names) {
+                searchCriteriaList.add(new SpecSearchCriteria(field.getName(), "~", name, true));
+            }
         }
 
         GenericSpecificationsBuilder<UserProfile> specificationsBuilder = new GenericSpecificationsBuilder<>();

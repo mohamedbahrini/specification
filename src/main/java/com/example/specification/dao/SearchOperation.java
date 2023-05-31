@@ -1,7 +1,7 @@
 package com.example.specification.dao;
 
 public enum SearchOperation {
-    EQUALITY, NEGATION, GREATER_THAN, LESS_THAN, LIKE, CONTAINS;
+    EQUALITY, NEGATION, GREATER_THAN, LESS_THAN, LIKE;
 
     public static final String[] SIMPLE_OPERATION_SET = { ":", "!", ">", "<", "~" };
 
